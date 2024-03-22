@@ -6,7 +6,7 @@ import {
 } from './../../../designable-core/formily-setters'
 import { FormItemSwitcher } from '../../common/FormItemSwitcher'
 import { AllSchemas } from '../../schemas'
-
+//默认值
 export const createComponentSchema = (
   component: ISchema,
   decorator: ISchema
@@ -86,9 +86,11 @@ export const createFieldSchema = (
         'x-component': 'CollapseItem',
         properties: {
           name: {
-            type: 'string',
+            // type: 'string',
+            // 'x-decorator': 'FormItem',
+            // 'x-component': 'Input',
             'x-decorator': 'FormItem',
-            'x-component': 'Input',
+            'x-component': 'NameInput',
           },
           title: {
             type: 'string',

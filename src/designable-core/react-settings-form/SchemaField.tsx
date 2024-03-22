@@ -1,3 +1,9 @@
+/*
+ * @Author: LaurenBerrys && 949154547@qq.com
+ * @Date: 2022-08-07 18:04:47
+ * @LastEditTime: 2024-03-21 15:07:05
+ * @Description: 组件注册
+ */
 import { createSchemaField } from '@formily/react'
 import {
   FormItem,
@@ -26,6 +32,7 @@ import {
   CornerInput,
   MonacoInput,
   ValueInput,
+  NameInput,
   BoxStyleSetter,
   BorderStyleSetter,
   BorderRadiusStyleSetter,
@@ -43,6 +50,7 @@ export const SchemaField = createSchemaField({
     FormItem,
     CollapseItem,
     Input,
+    NameInput,
     ValueInput,
     SizeInput,
     ColorInput,

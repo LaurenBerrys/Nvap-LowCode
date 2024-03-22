@@ -1,16 +1,16 @@
-import React, { useMemo, Fragment } from 'react'
-import { Button } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
-import { ArrayItems, Form, Input, FormItem } from '@formily/antd'
-import { createForm, Form as FormCore } from '@formily/core'
-import { observer } from '@formily/reactive-react'
-import { createSchemaField } from '@formily/react'
-import { ValueInput } from './../../..//react-settings-form'
-import { usePrefix, TextWidget } from './../../../react'
-import { Header } from './Header'
-import { traverseTree } from './shared'
-import { ITreeDataSource } from './types'
-import './styles.less'
+import React, { useMemo, Fragment } from "react";
+import { Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { ArrayItems, Form, Input, FormItem } from "@formily/antd";
+import { createForm, Form as FormCore } from "@formily/core";
+import { observer } from "@formily/reactive-react";
+import { createSchemaField } from "@formily/react";
+import { ValueInput, NameInput } from "./../../..//react-settings-form";
+import { usePrefix, TextWidget } from "./../../../react";
+import { Header } from "./Header";
+import { traverseTree } from "./shared";
+import { ITreeDataSource } from "./types";
+import "./styles.less";
 
 const SchemaField = createSchemaField({
   components: {
@@ -18,34 +18,35 @@ const SchemaField = createSchemaField({
     Input,
     ArrayItems,
     ValueInput,
+    NameInput,
   },
-})
+});
 
 export interface IDataSettingPanelProps {
-  treeDataSource: ITreeDataSource
-  allowExtendOption?: boolean
-  effects?: (form: FormCore<any>) => void
+  treeDataSource: ITreeDataSource;
+  allowExtendOption?: boolean;
+  effects?: (form: FormCore<any>) => void;
 }
 
 export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
   (props) => {
-    const { allowExtendOption, effects } = props
-    const prefix = usePrefix('data-source-setter')
+    const { allowExtendOption, effects } = props;
+    const prefix = usePrefix("data-source-setter");
     const form = useMemo(() => {
-      let values: any
+      let values: any;
       traverseTree(props.treeDataSource.dataSource, (dataItem) => {
         if (dataItem.key === props.treeDataSource.selectedKey) {
-          values = dataItem
+          values = dataItem;
         }
-      })
+      });
       return createForm({
         values,
         effects: effects,
-      })
+      });
     }, [
       props.treeDataSource.selectedKey,
       props.treeDataSource.dataSource.length,
-    ])
+    ]);
     if (!props.treeDataSource.selectedKey)
       return (
         <Fragment>
@@ -55,11 +56,11 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
             }
             extra={null}
           />
-          <div className={`${prefix + '-layout-item-content'}`}>
+          <div className={`${prefix + "-layout-item-content"}`}>
             <TextWidget token="SettingComponents.DataSourceSetter.pleaseSelectNode" />
           </div>
         </Fragment>
-      )
+      );
     return (
       <Fragment>
         <Header
@@ -71,9 +72,9 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
               <Button
                 type="text"
                 onClick={() => {
-                  form.setFieldState('map', (state) => {
-                    state.value.push({})
-                  })
+                  form.setFieldState("map", (state) => {
+                    state.value.push({});
+                  });
                 }}
                 icon={<PlusOutlined />}
               >
@@ -82,13 +83,13 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
             ) : null
           }
         />
-        <div className={`${prefix + '-layout-item-content'}`}>
+        <div className={`${prefix + "-layout-item-content"}`}>
           <Form form={form} labelWidth={60} wrapperWidth={160}>
             <SchemaField>
               <SchemaField.Array name="map" x-component="ArrayItems">
                 <SchemaField.Object
                   x-decorator="ArrayItems.Item"
-                  x-decorator-props={{ type: 'divide' }}
+                  x-decorator-props={{ type: "divide" }}
                 >
                   <SchemaField.String
                     title={
@@ -113,9 +114,9 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
                     x-component-props={{
                       style: {
                         margin: 5,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                       },
                     }}
                   />
@@ -125,6 +126,6 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
           </Form>
         </div>
       </Fragment>
-    )
+    );
   }
-)
+);

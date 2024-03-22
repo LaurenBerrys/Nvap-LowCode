@@ -1,5 +1,7 @@
 import "antd/dist/antd.less";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import {
   Designer,
   DesignerToolsWidget,
@@ -27,6 +29,7 @@ import {
   Shortcut,
   KeyCode,
 } from "./../designable-core/core";
+import { loadInitialSchema } from "./service/schema";
 import {
   LogoWidget,
   ActionsWidget,
@@ -94,6 +97,32 @@ GlobalRegistry.registerDesignerLocales({
 });
 
 const Playground = () => {
+  const { id } = useParams();
+  useEffect(() => {
+    console.log("Current ID is:", id);
+    if (!id) return;
+    axios
+      .request({
+        url: "http://localhost:3000/nest-api/Formily/find",
+        method: "get",
+        params: {
+          id,
+          page: 1,
+          pageSize: 10,
+        },
+      })
+      .then(({ data }) => {
+        const list = data.data.list;
+        localStorage.setItem("formily-form", JSON.stringify(list[0]));
+        if (list[0].form && list[0].schema) {
+          const form = JSON.parse(list[0].form);
+          const schema = JSON.parse(list[0].schema);
+          const ojb = { form, schema };
+          localStorage.setItem("formily-schema", JSON.stringify(ojb));
+          loadInitialSchema(engine);
+        }
+      });
+  }, [id]);
   const engine = useMemo(
     () =>
       createDesigner({
@@ -104,6 +133,7 @@ const Playground = () => {
               [KeyCode.Control, KeyCode.S],
             ],
             handler(ctx) {
+              console.log(ctx, "ctxctxctx");
               saveSchema(ctx.engine);
             },
           }),

@@ -100,6 +100,7 @@ export const createEnsureTypeItemsNode = (type: string) => (node: TreeNode) => {
   if (objectNode) {
     return objectNode
   } else {
+  console.log(type,'typetype')
     const newObjectNode = new TreeNode({
       componentName: 'Field',
       props: {
